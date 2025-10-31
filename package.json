@@ -1,0 +1,73 @@
+{
+  "name": "hn-pulse",
+  "version": "1.0.0",
+  "description": "Minimal Hacker News notifier that lives in your menu bar.",
+  "author": {
+    "name": "Angelo Capilleri",
+    "email": "capirellleri@gmail.com",
+    "url": "https://www.linkedin.com/in/angelocapilleri/"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/acapilleri/hn-pulse.git"
+  },
+  "bugs": {
+    "url": "https://github.com/acapilleri/hn-pulse/issues"
+  },
+  "homepage": "https://github.com/acapilleri/hn-pulse#readme",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder"
+  },
+  "dependencies": {
+    "node-fetch": "^3.3.2",
+    "sharp": "^0.34.4"
+  },
+  "devDependencies": {
+    "electron": "^32.0.0",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "ch.divoora.hnpulse",
+    "productName": "HN Pulse",
+    "copyright": "© 2025 Angelo Capilleri",
+    "asarUnpack": [
+      "node_modules/sharp/**/*",
+      "node_modules/@img/**/*"
+    ],
+    "files": [
+      "src/**/*",
+      "hn-pulse-icon.png",
+      "icon.png",
+      "node_modules/sharp/**/*",
+      "node_modules/@img/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "hn-pulse-icon.png",
+        "to": "hn-pulse-icon.png"
+      },
+      {
+        "from": "icon.png",
+        "to": "icon.png"
+      }
+    ],
+    "mac": {
+      "category": "public.app-category.utilities",
+      "target": {
+        "target": "dmg",
+        "arch": [
+          "universal"
+        ]
+      }
+    },
+    "win": {
+      "target": "nsis"
+    },
+    "linux": {
+      "target": "AppImage"
+    }
+  }
+}
