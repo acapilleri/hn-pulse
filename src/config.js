@@ -72,6 +72,26 @@ function matchesFilter(story) {
 
 // Config will be initialized when app is ready (in main.js)
 
+function isFirstRun() {
+  // Check if this is the first run by checking if seen.json exists and is empty
+  const fs = require('fs')
+  if (!SEEN_FILE) return false
+  try {
+    if (!fs.existsSync(SEEN_FILE)) return true
+    const data = fs.readFileSync(SEEN_FILE, 'utf8')
+    const parsed = JSON.parse(data)
+    return !parsed || parsed.length === 0
+  } catch {
+    return true
+  }
+}
+
+function initializeSeenWithStories(storyIds) {
+  // On first run, mark all current stories as seen without counting them as new
+  storyIds.forEach(id => seen.add(id))
+  saveSeen()
+}
+
 module.exports = {
   initializePaths,
   getSeen: () => seen,
@@ -80,6 +100,8 @@ module.exports = {
   hasSeen: (id) => seen.has(id),
   saveSeen,
   loadSeen,
+  isFirstRun,
+  initializeSeenWithStories,
   
   getMaxStories: () => maxStories,
   setMaxStories: (value) => { maxStories = value },

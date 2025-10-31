@@ -29,6 +29,12 @@ async function checkHN() {
     
     const stories = await hnApi.fetchTopStories(fetchCount)
 
+    // On first run, initialize seen with all current stories to avoid showing them as new
+    if (config.isFirstRun()) {
+      const storyIds = stories.map(s => s.id)
+      config.initializeSeenWithStories(storyIds)
+    }
+
     // Update top stories and menu
     menu.setTopStories(stories)
     menu.updateMenu()
