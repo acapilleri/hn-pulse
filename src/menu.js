@@ -7,6 +7,7 @@ const path = require('path')
 const config = require('./config')
 const badge = require('./badge')
 const notifications = require('./notifications')
+const constants = require('./constants')
 
 let tray = null
 let topStories = []
@@ -28,7 +29,7 @@ function updateMenu() {
   if (!tray) return
 
   const menuItems = [
-    { label: '🌐 Open Hacker News', click: () => shell.openExternal('https://news.ycombinator.com/') },
+    { label: '🌐 Open Hacker News', click: () => shell.openExternal(constants.HN_WEB.HOMEPAGE) },
     { type: 'separator' }
   ]
 
@@ -85,7 +86,7 @@ function updateMenu() {
           label: titleLabel,
           toolTip: `${score} points | ${comments} comments`,
           click: () => {
-            const url = story.url || `https://news.ycombinator.com/item?id=${story.id}`
+            const url = story.url || constants.HN_WEB.STORY(story.id)
             shell.openExternal(url)
           }
         })
@@ -305,7 +306,7 @@ function showErrorMenu() {
   const errorMenu = Menu.buildFromTemplate([
     { label: 'Error loading stories', enabled: false },
     { type: 'separator' },
-    { label: 'Open Hacker News', click: () => shell.openExternal('https://news.ycombinator.com/') },
+    { label: 'Open Hacker News', click: () => shell.openExternal(constants.HN_WEB.HOMEPAGE) },
     { type: 'separator' },
     { label: '⏻ Quit', click: () => require('electron').app.quit() }
   ])

@@ -5,6 +5,7 @@
 const { Notification, shell } = require('electron')
 const path = require('path')
 const utils = require('./utils')
+const constants = require('./constants')
 
 function createNotification(title, body, iconPath, onClick) {
   const notification = new Notification({
@@ -26,7 +27,7 @@ function notifyNewStory(story, isFilterMatch = false) {
     ? '🔍 New story matching your filters'
     : '🔥 Trending on Hacker News'
   
-  const url = story.url || `https://news.ycombinator.com/item?id=${story.id}`
+  const url = story.url || constants.HN_WEB.STORY(story.id)
   
   createNotification(
     title,
@@ -54,7 +55,7 @@ function testNotification(type, searchFilters = []) {
     title,
     body,
     utils.getIconPath(process.platform),
-    () => shell.openExternal('https://news.ycombinator.com/')
+    () => shell.openExternal(constants.HN_WEB.HOMEPAGE)
   )
 }
 

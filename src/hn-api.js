@@ -2,6 +2,8 @@
  * Hacker News API interactions
  */
 
+const constants = require('./constants')
+
 // node-fetch v3 is ESM → use dynamic import
 const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args))
 
@@ -21,14 +23,14 @@ async function safeFetch(url, retries = 3) {
 
 async function fetchTopStories(maxCount) {
   try {
-    const ids = await safeFetch('https://hacker-news.firebaseio.com/v0/topstories.json')
+    const ids = await safeFetch(constants.HN_API.TOP_STORIES)
     const topStoriesIds = ids.slice(0, maxCount)
 
     // Fetch all top stories
     const stories = []
     for (const id of topStoriesIds) {
       try {
-        const story = await safeFetch(`https://hacker-news.firebaseio.com/v0/item/${id}.json`)
+        const story = await safeFetch(constants.HN_API.ITEM(id))
         if (story && story.title) {
           stories.push(story)
         }
